@@ -165,13 +165,13 @@ class Dispatcher implements CakeEventListener {
 		}
 
 		$response = $this->_invoke($controller, $request);
-		if (isset($request->params['return'])) {
-			return $response->body();
-		}
 
 		$afterEvent = new CakeEvent('Dispatcher.afterDispatch', $this, compact('request', 'response'));
 		$this->getEventManager()->dispatch($afterEvent);
 		$afterEvent->data['response']->send();
+		if (isset($request->params['return'])) {
+			return $response->body();
+		}
 	}
 
 /**
